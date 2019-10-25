@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update the User</title>
+</head>
+<body>
+    <div><%=user.id%></div>
+    <form action="/user/<%=user.id%>?_method=PUT" method="POST">
+        <input type="text" value=<%=user.id%>>
+        <input name="first_name" value=<%=user.first_name%>>
+        <input name="last_name" value=<%=user.last_name%>>
+        <button>Submit</button>
+    </form>
+    
+</body>
+</html>
