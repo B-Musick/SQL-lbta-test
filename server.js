@@ -59,6 +59,7 @@ app.get('/users', (req, res) => {
         res.render('users', {users});
     })
 });
+
 app.get('/user/:id', (req, res) => {
     console.log('Fetching user with id: ' + req.params.id);
 
@@ -84,14 +85,14 @@ app.get('/user/:id', (req, res) => {
 
         res.json(users);
     })
-    
 });
+
 app.get('/',(req,res)=>{
     console.log('Responding to root');
     res.send('Hi');
 });
 
-
+// INSERT ROUTE (CREATE)
 app.post('/user',(req,res)=>{
     // Gets post from the user/create page
     let firstName = req.body.first_name;
@@ -112,6 +113,7 @@ app.post('/user',(req,res)=>{
     
 });
 
+// LOAD EDIT PAGE FOR UPDATE ROUTE
 app.get('/user/:id/edit',(req,res)=>{
     var con = getConnection();
 
@@ -134,6 +136,7 @@ app.get('/user/:id/edit',(req,res)=>{
     
 })
 
+// UPDATE ROUTE
 app.put('/user/:id',(req,res)=>{
     
     let userId = req.params.id;
@@ -151,12 +154,25 @@ app.put('/user/:id',(req,res)=>{
         console.log('Updated a user ' + results);
         res.redirect('/users');
     })
-//     let firstName = req.params.first_name;
-//     let lastName = req.params.last_name;
-//     let userId = req.params.id;
-//     console.log(req.body);
-//     res.render('update',{userId, firstName,lastName});
-})
+});
+
+// DELETE ROUTE
+app.delete('/user/:id', (req, res) => {
+
+    let userId = req.params.id;
+    
+    let queryString = 'DELETE FROM users WHERE id= ?';
+    // The values in the brackets are inserted into the query string (?,?)
+    getConnection().query(queryString, [userId], (err, results, fields) => {
+        if (err) {
+            console.log('Failed to delete user');
+            res.sendStatus(500);
+            return
+        }
+        console.log('Updated a user ' + results);
+        res.redirect('/users');
+    })
+});
 
 app.listen(3002,()=>{
     console.log('Server is running and listening on 3002...');
